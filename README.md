@@ -1,2 +1,7 @@
-# COMP2101 This is a modification
-to see what happend I don see that in Git hub
+# COMP2101 Better
+Now I know how to push file
+1) save file
+2) GitHub
+3) Stage
+4) Commit
+5) Push
