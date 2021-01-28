@@ -5,3 +5,4 @@ Now I know how to push file
 3) Stage
 4) Commit
 5) Push
+6
