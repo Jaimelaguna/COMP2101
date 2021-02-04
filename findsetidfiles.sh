@@ -14,7 +14,7 @@
 #   should have its own title, similar to how the setuid files listing has a title
 # use the find command to generate the list of files with their sizes, with an error redirect to /dev/null
 # use cut or awk to display only the output desired
-
+echo ""
 echo "Setuid files:"
 echo "============="
 find / -type f -executable -perm -4000 -ls 2>/dev/null | sort -k 5
