@@ -19,6 +19,7 @@ echo "Setuid files:"
 echo "============="
 find / -type f -executable -perm -4000 -ls 2>/dev/null | sort -k 5
 echo ""
+
 echo "============================================================================================================================"
 echo "Jaime Laguna filter:"
 echo "Display only file name, owner, and size of 12 largest files which complies with the executable attribute in the entire disk"
