@@ -14,18 +14,13 @@
 #   should have its own title, similar to how the setuid files listing has a title
 # use the find command to generate the list of files with their sizes, with an error redirect to /dev/null
 # use cut or awk to display only the output desired
-echo ""
-echo "Setuid files:"
-echo "============="
-find / -type f -executable -perm -4000 -ls 2>/dev/null | sort -k 5
-echo ""
 
 echo "============================================================================================================================"
 echo "Jaime Laguna filter:"
 echo "Display only file name, owner, and size of 12 largest files which complies with the executable attribute in the entire disk"
 echo "============================================================================================================================"
 echo "File name                                        Owner   Size"
-find / -type f -executable -perm -4000 -exec ls -lh {} + 2>/dev/null | sort -k 5 -h | tail -n 12 | awk '{print $9,":",$3,":",$5}'| column -t -s:
+find / -type f -exec ls -lh {} + 2>/dev/null | sort -k 5 -h | tail -n 12 | awk '{print $9,":",$3,":",$5}'| column -t -s:
 echo ""
 # find / -type f -executable -perm -4000 -ls 2>/dev/null | sort -k 7 -n | tail -n 12 | awk '{print "File name:", $11,"     Owner:",$5,"     Size: ",$7}'
 # for the task, add
