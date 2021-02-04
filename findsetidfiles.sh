@@ -20,6 +20,14 @@ echo "============="
 find / -type f -executable -perm -4000 -ls 2>/dev/null | sort -k 5
 echo ""
 
+echo "============================================================================================================================"
+echo "Jaime Laguna filter:"
+echo "Display only file name, owner, and size of 12 largest files which complies with the executable attribute in the entire disk"
+echo "============================================================================================================================"
+echo "File name                                        Owner   Size"
+find / -type f -executable -perm -4000 -ls 2>/dev/null | sort -k 7 -n | tail -n 12 | awk '{print $11,":",$5,":",$7}'| column -t -s:
+echo ""
+# find / -type f -executable -perm -4000 -ls 2>/dev/null | sort -k 7 -n | tail -n 12 | awk '{print "File name:", $11,"     Owner:",$5,"     Size: ",$7}'
 # for the task, add
 # commands to display a title
 # commands to make a list of the 12 biggest files
