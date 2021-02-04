@@ -1,5 +1,5 @@
 #!/bin/bash
-
+echo ""
 echo "============================================================================================================================"
 echo "Jaime Laguna filter:"
 echo "Display only file name, owner, and size of 12 largest files which complies with the executable attribute in the entire disk"
