@@ -22,7 +22,7 @@ echo ""
 #     tell the user you did that
 grep -q $newname /etc/hosts &&
       echo The host name is already with your student number ||
-      (echo I have to change the host name with your student number, wait to enter sudo password &&
+      (echo I have to change the host name from $HOST to your student number $newname, wait to enter sudo password &&
       hostnamectl set-hostname $newname &&
       sudo sed -i "s/$HOST/$newname/" /etc/hosts)
 echo ""
