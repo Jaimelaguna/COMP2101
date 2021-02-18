@@ -75,7 +75,7 @@
 #   External IP     : $myExternalIP
 #   External Name   : $myExternalName
 HOSTNAME=$(hostname)
-LANADDRESS=$(ip a s $(ip a |awk '/: e/{gsub(/:/,"");print $2}')|awk '/inet /{gsub(/\/.*/,"");print $2}')
+LANADDRESS=$(ip a s $(ip a |awk '/2: e/{gsub(/:/,"");print $2}')|awk '/inet /{gsub(/\/.*/,"");print $2}')
 LANHOSTNAME=$(getent hosts $(ip a s $(ip a |awk '/: e/{gsub(/:/,"");print $2}')|awk '/inet /{gsub(/\/.*/,"");print $2}')| awk '{print $2}')
 EXTERNALIP=$(curl -s icanhazip.com)
 EXTERNALNAME=$(getent hosts $EXTERNALIP | awk '{print $2}')
