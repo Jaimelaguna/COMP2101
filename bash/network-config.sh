@@ -83,6 +83,11 @@ EXTERNAL_NAME=$(getent hosts $EXTERNAL_IP | awk '{print $2}')
 ROUTER_ADDRESS=$(ip r | awk '/default/{print $3}')
 ROUTER_HOST_NAME=$(cat /etc/hosts | awk '/'$ROUTER_ADDRESS'/{print$2}')
 
+echo ""
+echo "****************************************************"
+echo "Host Identification Information"
+echo "****************************************************"
+echo ""
 echo "Hostname        : $HOSTNAME"
 echo "LAN Address     : $LAN_ADDRESS"
 echo "LAN Hostname    : $LAN_HOST_NAME"
@@ -90,3 +95,6 @@ echo "External IP     : $EXTERNAL_IP"
 echo "External Name   : $EXTERNAL_NAME"
 echo "Router Address  : $ROUTER_ADDRESS"
 echo "Router Hostname : $ROUTER_HOST_NAME"
+echo ""
+echo "****************************************************"
+echo ""
