@@ -75,17 +75,18 @@
 #   External IP     : $myExternalIP
 #   External Name   : $myExternalName
 HOSTNAME=$(hostname)
-LANADDRESS=$(ip a s $(ip a |awk '/2: e/{gsub(/:/,"");print $2}')|awk '/inet /{gsub(/\/.*/,"");print $2}')
-LANHOSTNAME=$(getent hosts $(ip a s $(ip a |awk '/2: e/{gsub(/:/,"");print $2}')|awk '/inet /{gsub(/\/.*/,"");print $2}')| awk '{print $2}')
-EXTERNALIP=$(curl -s icanhazip.com)
-EXTERNALNAME=$(getent hosts $EXTERNALIP | awk '{print $2}')
-ROUTERADDRESS=$(ip r | awk '/default/{print $3}')
-ROUTERHOSTNAME=$(cat /etc/hosts | awk '/'$ROUTERADDRESS'/{print$2}')
+NIC_INTERFACE=$(ip a | awk '/2: e/{gsub(/:/,"");print $2}')
+LAN_ADDRESS=$(ip a s $NIC_INTERFACE | awk '/inet /{gsub(/\/.*/,"");print $2}')
+LAN_HOST_NAME=$(getent hosts $LAN_ADDRESS | awk '{print $2}')
+EXTERNAL_IP=$(curl -s icanhazip.com)
+EXTERNAL_NAME=$(getent hosts $EXTERNAL_IP | awk '{print $2}')
+ROUTER_ADDRESS=$(ip r | awk '/default/{print $3}')
+ROUTER_HOST_NAME=$(cat /etc/hosts | awk '/'$ROUTER_ADDRESS'/{print$2}')
 
 echo "Hostname        : $HOSTNAME"
-echo "LAN Address     : $LANADDRESS"
-echo "LAN Hostname    : $LANHOSTNAME"
-echo "External IP     : $EXTERNALIP"
-echo "External Name   : $EXTERNALNAME"
-echo "Router Address  : $ROUTERADDRESS"
-echo "Router Hostname : $ROUTERHOSTNAME"
+echo "LAN Address     : $LAN_ADDRESS"
+echo "LAN Hostname    : $LAN_HOST_NAME"
+echo "External IP     : $EXTERNAL_IP"
+echo "External Name   : $EXTERNAL_NAME"
+echo "Router Address  : $ROUTER_ADDRESS"
+echo "Router Hostname : $ROUTER_HOST_NAME"
