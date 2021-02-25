@@ -103,7 +103,7 @@ EOF
 # define the interface being summarized
 
 if [ $printinterfaces = "yes" ]; then
-  aux_interfaces=$(ip a | awk '/: e/{gsub(/:/,"");print $2}')                    #bring interfaces
+  aux_interfaces=$(ip a | awk '/: /{gsub(/:/,"");print $2}')                    #bring interfaces
   aux_interfaces=$(echo "$aux_interfaces" | awk '{printf "%s ",$0} END {print ""}')   #R
   Interface_array=($aux_interfaces)
   Total_interfaces=${#Interface_array[@]}
