@@ -37,7 +37,9 @@ printinterfaces="no"
 while [ $# -gt 0 ]; do
   case "$1" in
     -h | --help )
+      echo ""
       echo "Usage: $(basename $0) [-h|--help] [-v, verbose] [-a, Print info all interfaces] [Interface-name]"
+      echo ""
       exit
     ;;
     -v )
@@ -103,7 +105,8 @@ EOF
 # define the interface being summarized
 
 if [ $printinterfaces = "yes" ]; then
-  aux_interfaces=$(ip a | awk '/: /{gsub(/:/,"");print $2}')                    #bring interfaces
+  [ "$verbose" = "yes" ] && echo "Retrieving all interfaces present in the system"
+  aux_interfaces=$(ip a | awk '/: e/{gsub(/:/,"");print $2}')                    #bring interfaces
   aux_interfaces=$(echo "$aux_interfaces" | awk '{printf "%s ",$0} END {print ""}')   #R
   Interface_array=($aux_interfaces)
   Total_interfaces=${#Interface_array[@]}
@@ -113,7 +116,7 @@ if [ $printinterfaces = "yes" ]; then
       if [[ " ${Interface_array[@]} " =~ " $interface_read " ]]; then
         Interface_array=($interface_read)
         Total_interfaces=${#Interface_array[@]}
-
+        [ "$verbose" = "yes" ] && echo "Reporting just the interface selected by the user: $interface_read"
       else
         echo "the interface \" $interface_read \" that you are trying to reach do not exist in your system"
         exit
