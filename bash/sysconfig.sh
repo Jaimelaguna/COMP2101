@@ -15,7 +15,7 @@
 # Usage:
 #   error-message ["some text to print to stderr"]
 function error-message {
-  echo ""
+  echo " "
   echo "  Error due a parameter by user" >&2
 }
 
@@ -61,11 +61,12 @@ EOF
 
 # This function will remove all the temp files created by the script
 function cleanup {
-  rm /tmp/*.$$
+   echo "Deleting temporary files"
+   sudo rm /tmp/*.$$
 }
 # The temp files are all named similarly, "/tmp/somethinginfo.$$"
 # A trap command is used after the function definition to specify this function is to be run if we get a ^C while running
-trap cleanup SIGINT
+trap "cleanup" SIGINT
 # End of section to be done for TASK
 # Remainder of script does not require any modification, but may need to be examined in order to create the functions for TASK
 
