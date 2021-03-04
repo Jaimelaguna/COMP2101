@@ -61,8 +61,11 @@ EOF
 
 # This function will remove all the temp files created by the script
 function cleanup {
+   echo ""
    echo "Deleting temporary files"
    sudo rm /tmp/*.$$
+   echo ""
+   exit
 }
 # The temp files are all named similarly, "/tmp/somethinginfo.$$"
 # A trap command is used after the function definition to specify this function is to be run if we get a ^C while running
