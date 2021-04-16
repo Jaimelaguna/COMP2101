@@ -1,3 +1,4 @@
+#Function declaration part
 function System_Info1 {
 	Write-Host "1)     COMPUTER SYSTEM     " -ForegroundColor blue -BackgroundColor white
 	Get-WmiObject -class win32_computersystem | 
@@ -91,12 +92,29 @@ write-host "Summary of RAM memory Installed (GB)" ("{0:N1}" -f ($TotalMemory/1GB
 }
 function Drives1 {
 	Write-Host "5)     DRIVES     " -ForegroundColor blue -BackgroundColor white
-	Get-WMIObject -class win32_diskdrive
-	Get-WMIObject -class win32_diskpartition
-	Get-WMIObject -class win32_logicaldisk
-	# summary of the physical disk drives with their vendor, model, size, and space usage
-	# (size, free space, and percentage free) of the logical disks one logical disk per output line
-	# Table Format
+	$diskdrives = Get-WMIObject -class win32_diskdrive
+	$MyIndividualLogical= 
+		foreach ($disk in $diskdrives) {
+      			$partitions = $disk.GetRelated("win32_diskpartition")
+      			foreach ($partition in $partitions) {
+				$logicaldisks = $partition.GetRelated("win32_logicaldisk")
+            			foreach ($logicaldisk in $logicaldisks) {
+                     			new-object -typename psobject -property @{
+						Vendor=$disk.Manufacturer
+						Model=$disk.Model
+						"Physical Disk Size (GB)"=("{0:N1}" -f ($disk.Size/1GB))
+						Location=$partition.deviceid
+						Drive=$logicaldisk.deviceid
+						"Logical disk Size (GB)"=("{0:N1}" -f ($logicaldisk.size/1GB))
+						"Logical free Space (GB)"=("{0:N1}" -f ($logicaldisk.FreeSpace/1GB))
+						"Percentage Free"=("{0:P2}" -f ($logicaldisk.FreeSpace/$logicaldisk.size))
+					}
+			}
+		}
+	}
+	$MyIndividualLogical | format-table -autosize Vendor, Model, "Physical Disk Size (GB)",
+					Location, Drive, "Logical disk Size (GB)",
+					"Logical free Space (GB)", "Percentage Free"	
 }
 function Network1 {
 	Write-Host "6)     NETWORK ADAPTER     " -ForegroundColor blue -BackgroundColor white -NoNewline
@@ -106,23 +124,23 @@ function Video_Cards1 {
 	Write-Host "7)     VIDEO CARDS     " -ForegroundColor blue -BackgroundColor white
 	Get-WMIObject -class win32_videocontroller |
 	foreach { 
-		$vertical = ("{0:N0}" -f $_.currentverticalresolution) -as [string]
-		$Horizontal = ("{0:N0}" -f $_.CurrentHorizontalResolution) -as [string]
-		$Phrase = $Horizontal + " Pixels" + " X " + $vertical + " Pixels"
+		$vertical = ("{0:N0}" -f (Get-WMIObject -class win32_videocontroller).currentverticalresolution) -as [string]
+		$Horizontal = ("{0:N0}" -f (Get-WMIObject -class win32_videocontroller).CurrentHorizontalResolution) -as [string]
+		$Phrase = $Horizontal + " Pixels" + " x " + $vertical + " Pixels"
 		New-Object -TypeName psobject -Property @{
 			Description = $_.Description
 			"Vendor" = if ($_.InfSection -eq $empty) 
 					{"Data Unavailable"}
                     			else {$_.InfSection}
-			"Screen Resolution" = $Phrase
+			"Screen Resolution Horizontal x Vertical" = $Phrase
                 	}
         	} |
 	Format-List Description,
 		Vendor,
-		"Screen Resolution"
+		"Screen Resolution Horizontal x Vertical"
 }
 
-#data unavailable in all cases
+# Main program
 
 Write-Host ""
 Write-Host "SYSTEM INFORMATION" -ForegroundColor blue -BackgroundColor white
@@ -132,6 +150,7 @@ System_Info1
 Operating_System1
 Processor1
 Memory1
-#Drives1
+Drives1
 Network1
 Video_Cards1
+Write-Host "=================="
